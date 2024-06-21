@@ -1,7 +1,7 @@
-import AuthModel from '../Models/auth/auth.model.js';
-import FormValidation from '../validators/form.validator.js';
-import HashingUtils from '../utils/hashing.utilty.js';
-import JwtService from '../utils/token.utility.js';
+import AuthModel from '../../Models/auth/auth.model.js';
+import FormValidation from '../../validators/form.validator.js';
+import HashingUtils from '../../utils/hashing.utilty.js';
+import JwtService from '../../utils/token.utility.js';
 
 class AuthServices {
     constructor() {
@@ -55,8 +55,6 @@ class AuthServices {
             password: hashedPassword
         })
 
-        newUser = newUser.toJSON();
-
         if(!newUser){
             return {
                 status: "error",
@@ -65,58 +63,22 @@ class AuthServices {
             }
         }
 
+        let new_user = newUser.toJSON();
+
         delete newUser.password;
         delete newUser.__v;
-
-        const user_info = {
-            fullname: newUser.fullname,
-            email: newUser.email
-        }
-
-        const user_token = await JwtService.GenerateJwtTokenService(user_info);
-
-        if(!user_token){
-            return {
-                status: "error",
-                code: 500,
-                message: "Token generation failed",
-            }
-        }
 
         return {
             status: "success",
             message: "User has been created successfully",
-            toke: user_token,
-            newUser
+            new_user
         }
     }
 
     static async UserLoginService(req, res) {
         const bodyData = req.body;
-        let token = req.headers['authorization'];
-
-        if(!token){
-            return {
-                status: "error",
-                code: 400,
-                message: "Invalid token received",
-            }
-        }
-        token = token.replace('Bearer ','');
-        
-        const verifiedTokenUser = await JwtService.VerifyJwtTokenService(token);
-        
-        // console.log("toke user info", verifiedTokenUser)
-        
+                
         const { email, password } = bodyData;
-
-        if(!(email == verifiedTokenUser.email)){
-            return {
-                status: "error",
-                code: 400,
-                message: "Invalid token received",
-            }
-        }
 
         const formValResponse = await FormValidation.LoginFormValidate(bodyData);
 
@@ -131,7 +93,7 @@ class AuthServices {
             return {
                 status: "error",
                 code: 200,
-                message: "Wrong credentials",
+                message: "User is invalid",
             }
         }
         
@@ -166,15 +128,33 @@ class AuthServices {
             }
         }
 
-        console.log("updated user", updateResponse)
+        const user_data = {
+            fullname: user.fullname,
+            email: user.email
+        }
 
-        return {
-            status: "success",
-            message: "User has been loggedIn successfully",
+        const user_token = await JwtService.GenerateJwtTokenService(user_data);
+
+        if(!user_token){
+            return {
+                status: "error",
+                code: 500,
+                message: "Login failed due to token generation error.",
+            }
+        }
+
+        let user_info = {
             user: user.fullname,
             email: user.email,
             login_status: updateResponse.login_status,
             login_time: updateResponse.login_time
+        }
+
+        return {
+            status: "success",
+            message: "User has been loggedIn successfully",
+            token: user_token,
+            user_info
         }
     }
 

@@ -56,9 +56,9 @@ class FormValidation {
             }
         } catch (error) {
             return {
-                status: "success",
+                status: "error",
                 code: 400,
-                message: "Validation successfull"
+                message: "Validation failed"
             }
         }
 
@@ -102,13 +102,55 @@ class FormValidation {
             }
         } catch (error) {
             return {
-                status: "success",
+                status: "error",
                 code: 400,
-                message: "Validation successfull"
+                message: "Validation failed"
             }
         }
 
         
+    }
+
+    static async TodoFormValidate(request_data){
+        try {
+            const { title, description } = request_data;
+
+            if(!title || !description){
+                return {
+                    status: "error",
+                    code: 400,
+                    message: "Please fill all the requied fields."
+                }
+            }
+
+            if(title.length < 3){
+                return {
+                    status: "error",
+                    code: 400,
+                    message: "Title must be minimum 3 character long."
+                }
+            }
+
+            if(description.length < 6){
+                return {
+                    status: "error",
+                    code: 400,
+                    message: "Title must be minimum 6 character long."
+                }
+            }
+
+            return {
+                status: "success",
+                code: 200,
+                message: "Validation successfull"
+            }
+        } catch (error) {
+            return {
+                status: "error",
+                code: 400,
+                message: "Validation failed"
+            }
+        }
     }
 }
 

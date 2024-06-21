@@ -10,6 +10,7 @@ class AuthModel {
             const schema = new Mongoose.Schema({
                 user_id: {
                     type: String,
+                    unique: true,
                     default: uuidv4()
                 },
                 fullname: {
@@ -19,6 +20,7 @@ class AuthModel {
                 },
                 email: {
                     type: String,
+                    unique: true,
                     require: true,
                     trim: true
                 },

@@ -1,16 +1,14 @@
 import mongoose from 'mongoose';
 
 class Configurations {
-    constructor() {
-
-    }
+    constructor() {}
 
     static async ConnectWithMongoDB() {
-        console.log("hellomongo", process.env.MONGODB_URI)
         try {
             mongoose.connect(process.env.MONGODB_URI);
             return {
                 status: "success",
+                code: 200,
                 message: "Database connected successfully"
             }
         } catch (error) {

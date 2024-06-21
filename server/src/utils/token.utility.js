@@ -14,7 +14,7 @@ class JwtService {
             return jwtToken
         } catch (error) {
             console.log(error);
-            throw new Error(error);
+            throw new Error(error.message);
         }
     }
 
@@ -29,7 +29,7 @@ class JwtService {
             return infoUser
         } catch (error) {
             console.log(error);
-            throw new Error(error);
+            throw new Error('Invalid token recevied.');
         }
     }
 
