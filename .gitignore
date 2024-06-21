@@ -1,0 +1,25 @@
+# Dependency directories
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Client environment variables
+client/.env
+
+# Server environment variables
+server/.env
+
+# Environment-specific files (if applicable)
+client/.env.local
+client/.env.production
+client/.env.test
+server/.env.local
+server/.env.production
+server/.env.test
+
+# Log files
+*.log
+
+# Build files (if applicable)
+client/build/
+server/build/
