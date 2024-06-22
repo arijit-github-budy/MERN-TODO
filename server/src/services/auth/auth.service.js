@@ -65,8 +65,14 @@ class AuthServices {
 
         let new_user = newUser.toJSON();
 
-        delete newUser.password;
-        delete newUser.__v;
+        delete new_user.password;
+        delete new_user.__v;
+        delete new_user._id;
+        delete new_user.login_time;
+        delete new_user.logout_time;
+        delete new_user.login_status;
+        delete new_user.updatedAt;
+        delete new_user.createdAt;
 
         return {
             status: "success",
@@ -144,7 +150,7 @@ class AuthServices {
         }
 
         let user_info = {
-            user: user.fullname,
+            fullname: user.fullname,
             email: user.email,
             login_status: updateResponse.login_status,
             login_time: updateResponse.login_time
@@ -159,8 +165,8 @@ class AuthServices {
     }
 
     static async UserLogoutService(req, res) {
-        const bodyData = req.body;
         let token = req.headers['authorization'];
+        let user_email = req.headers['email'];
 
         if(!token){
             return {
@@ -173,42 +179,28 @@ class AuthServices {
         
         const verifiedTokenUser = await JwtService.VerifyJwtTokenService(token);
 
-        const { email:user_email, password } = bodyData;
+        let token_email = verifiedTokenUser.email;
 
-        if(!(user_email == verifiedTokenUser.email)){
+        if(!(token_email == user_email)){
             return {
                 status: "error",
                 code: 400,
-                message: "Invalid token received",
+                message: "Invalid user try to logout.",
             }
         }
 
-        let email = verifiedTokenUser.email;
-
-        const user = await this.FindUserDetails(email);
+        const user = await this.FindUserDetails(token_email);
 
         if (!user) {
             return {
                 status: "error",
-                code: 200,
-                message: "Wrong credentials",
-            }
-        }
-        
-        let userSavedHashedPassword = user.password;
-
-        const compareStatus = await HashingUtils.CompareHashedContentService(password, userSavedHashedPassword);
-
-        if (!compareStatus) {
-            return {
-                status: "error",
                 code: 400,
-                message: "Wrong credentials",
+                message: "Invalid user try to logout.",
             }
         }
         
         const updateResponse = await this.User.findOneAndUpdate({
-            email
+            email: user_email
         },{
             $set: {
                 login_status: false,
@@ -228,13 +220,18 @@ class AuthServices {
 
         // console.log("updated user", updateResponse)
 
-        return {
-            status: "success",
-            message: "User has been loggedOut successfully",
-            user: user.fullname,
+        let user_info = {
+            fullname: user.fullname,
             email: user.email,
             login_status: updateResponse.login_status,
             logout_time: updateResponse.logout_time
+        }
+
+        return {
+            status: "success",
+            code: 200,
+            message: "User has been logged out successfully",
+            user_info
         }
     }
 }

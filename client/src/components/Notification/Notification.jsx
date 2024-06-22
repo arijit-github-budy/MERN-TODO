@@ -1,0 +1,16 @@
+import React from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const Notification = () => {
+    return (
+        <>
+            <ToastContainer
+                position="top-right"
+                rtl
+            />
+        </>
+    )
+}
+
+export default Notification

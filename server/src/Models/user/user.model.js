@@ -10,7 +10,6 @@ class UserModel {
             const schema = new Mongoose.Schema({
                 todo_id: {
                     type: String,
-                    unique: true,
                     default: uuidv4()
                 },
                 title: {

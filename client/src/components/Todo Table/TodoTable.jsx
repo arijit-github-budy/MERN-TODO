@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Eye, Pencil, Trash2, CircleCheck } from 'lucide-react';
 import styles from './TodoTable.module.css'; // Import TodoTable module CSS
 
 const TodoTable = ({ todos, toggleCompletion, deleteTodo }) => {
@@ -58,9 +59,10 @@ const TodoTable = ({ todos, toggleCompletion, deleteTodo }) => {
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th>Title</th>
+                        <th style={{width: "200px"}}>Title</th>
                         <th>Description</th>
-                        <th>Actions</th>
+                        <th style={{width: "120px"}}>Status</th>
+                        <th style={{width: "205px"}}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,12 +70,22 @@ const TodoTable = ({ todos, toggleCompletion, deleteTodo }) => {
                         <tr key={todo.id}>
                             <td>{todo.title}</td>
                             <td>{todo.description}</td>
+                            <td><div className={`${styles.todoStatus} ${String(todo.status).toLowerCase() == 'completed' ? styles.todoCompleteColor : styles.todoPendingColor}`}>{todo.status}</div></td>
                             <td>
-                                <button onClick={() => toggleCompletion(todo.id)}>
-                                    {todo.completed ? 'Undo' : 'Complete'}
-                                </button>
-                                <button>Edit</button>
-                                <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+                                <div className={styles.tableActionIcons}>
+                                    <span className={`${styles.icon} ${styles.circle}`} onClick={() => toggleCompletion(todo.id)}>
+                                        <CircleCheck />
+                                    </span>
+                                    <span className={`${styles.icon} ${styles.eye}`}>
+                                        <Eye />
+                                    </span>
+                                    <span className={`${styles.icon} ${styles.pencil}`}>
+                                        <Pencil />
+                                    </span>
+                                    <span className={`${styles.icon} ${styles.trash}`} onClick={() => deleteTodo(todo.id)}>
+                                        <Trash2 />
+                                    </span>
+                                </div>
                             </td>
                         </tr>
                     ))}

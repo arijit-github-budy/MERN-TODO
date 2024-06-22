@@ -11,7 +11,7 @@
     font-size: 1rem;
 }
 
-.searchContainer{
+.searchContainer {
     width: 100%;
     /* height: 100%; */
     display: flex;
@@ -21,7 +21,7 @@
     margin-bottom: 10px;
 }
 
-.searchButton{
+.searchButton {
     width: 70px;
     background-color: #008DDA;
     color: #fff;
@@ -38,7 +38,8 @@
     border-collapse: collapse;
 }
 
-.todoTable .table th, .todoTable .table td {
+.todoTable .table th,
+.todoTable .table td {
     border: 1px solid #ccc;
     padding: 8px;
 }
@@ -52,11 +53,11 @@
     text-align: left;
 }
 
-.todoTable{
+.todoTable {
     margin-top: 10px;
 }
 
-.pagination{
+.pagination {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -93,13 +94,63 @@
     border: 1px solid #ccc;
 }
 
-.pageLimit{
-    
-}
+.pageLimit {}
 
-.pageActions{
+.pageActions {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 30px;
+}
+
+.tableActionIcons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.icon {
+    cursor: pointer;
+    margin: 0 8px;
+    transition: color 0.3s ease;
+}
+
+.circle:hover {
+    color: green;
+    /* Change color on hover */
+}
+.eye:hover {
+    color: cyan;
+    /* Change color on hover */
+}
+.pencil:hover {
+    color: yellow;
+    /* Change color on hover */
+}
+
+.trash:hover {
+    color: red;
+    /* Change color on hover */
+}
+
+/* Style for specific icons */
+.icon svg {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+.todoStatus{
+    width: fit-content;
+    padding: 0px 20px;
+    border-radius: 50px;
+    /* font-size: 17px; */
+    font-weight: 600;
+    color: #fff;
+}
+.todoPendingColor{
+    background-color: #efef08;
+}
+.todoCompleteColor{
+    background-color: green;
 }

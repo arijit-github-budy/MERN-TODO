@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import TodoForm from '../../components/Todo Form/TodoForm';
 import TodoTable from '../../components/Todo Table/TodoTable';
 import styles from './home.module.css';
 
 const Dashboard = () => {
-    // Dummy data for initial todo list (you can replace this with API integration)
+    const dispatch = useDispatch();
+
+    const authState = useSelector((state) => state.auth);
+    console.log("dashborad state", authState);
+
+    const {user} = authState;
+
     const [todos, setTodos] = useState([
-        { id: 1, title: 'Todo 1', description: 'Description for Todo 1', completed: false },
-        { id: 2, title: 'Todo 2', description: 'Description for Todo 2', completed: true },
-        { id: 3, title: 'Todo 3', description: 'Description for Todo 3', completed: false },
+        { id: 1, title: 'Todo 1', description: 'Description for Todo 1', status: "Pending", completed: false },
+        { id: 2, title: 'Todo 2', description: 'Description for Todo 2', status: "Completed", completed: true },
+        { id: 3, title: 'Todo 3', description: 'Description for Todo 3', status: "Pending", completed: false },
         // Add more todos as needed
     ]);
 
