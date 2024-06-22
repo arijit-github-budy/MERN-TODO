@@ -1,16 +1,15 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
-import Register from './pages/Register/Register.jsx';
+import configurations from './config/config.module.js';
 
 const App = () => {
   const dispatch = useDispatch();
 
   const allState = useSelector((state) => state);
-  console.log("all state", allState);
+  console.log("all state", allState, configurations.BACKEND_URL);
 
   return (
-    <div className="container">
+    <div className="text-5xl text-red-950">
       MERN TODO APP
     </div>
   )
