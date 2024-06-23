@@ -59,6 +59,7 @@ class AuthServices {
 
 
         let newUser = await this.User.create({
+            user_id: Date.now(),
             fullname,
             username,
             email,
@@ -76,7 +77,6 @@ class AuthServices {
         let new_user = newUser.toJSON();
 
         delete new_user.password;
-        delete new_user.__v;
         delete new_user._id;
         delete new_user.login_time;
         delete new_user.logout_time;

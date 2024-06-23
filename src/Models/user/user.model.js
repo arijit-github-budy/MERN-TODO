@@ -10,7 +10,7 @@ class UserModel {
             const schema = new Mongoose.Schema({
                 todo_id: {
                     type: String,
-                    default: Date.now()
+                    require: true
                 },
                 title: {
                     type: String,

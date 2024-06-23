@@ -10,8 +10,7 @@ class AuthModel {
             const schema = new Mongoose.Schema({
                 user_id: {
                     type: String,
-                    unique: true,
-                    default: Date.now()
+                    require: true
                 },
                 fullname: {
                     type: String,

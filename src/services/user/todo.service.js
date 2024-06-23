@@ -25,6 +25,7 @@ class TodoService {
         const { title, description } = bodyData;
 
         let new_todo = await this.Todo.create({
+            todo_id: Date.now(),
             title,
             description,
             status: 'Pending',
@@ -40,9 +41,6 @@ class TodoService {
         }
 
         new_todo = new_todo.toJSON();
-
-
-        delete new_todo.__v;
 
         return {
             status: "success",
@@ -71,7 +69,7 @@ class TodoService {
                 { title: {$regex: search, $options: 'i'} },
                 { status: {$regex: search, $options: 'i'} },
             ]
-        }).skip(offset).limit(limit).select({ _id: 0, __v: 0 });
+        }).skip(offset).limit(limit).select({ _id: 0 });
 
         searched_todo_count = await this.Todo.find({
             $or: [
@@ -101,7 +99,6 @@ class TodoService {
 
     static async CountAllTodosService() {
         let todos_count = await this.Todo.count();
-        // console.log(todos_count, "total count");
         return todos_count
     }
 
@@ -113,7 +110,7 @@ class TodoService {
         offset = Number(offset);
         limit = Number(limit);
 
-        all_todos = await this.Todo.find({}).sort({title: -1}).skip(offset).limit(limit).select({ _id: 0, __v: 0 });
+        all_todos = await this.Todo.find({}).sort({title: -1}).skip(offset).limit(limit).select({ _id: 0 });
 
 
         if (!all_todos) {
@@ -134,7 +131,6 @@ class TodoService {
             }
         }
         let total_todo = await this.CountAllTodosService();
-        console.log(total_todo)
         return {
             status: "success",
             code: 200,
@@ -158,7 +154,7 @@ class TodoService {
 
         let fetched_todo = await this.Todo.findOne({
             todo_id: todoId
-        }).select({ _id: 0, __v: 0 });
+        }).select({ _id: 0 });
 
         if (!fetched_todo) {
             return {
@@ -225,7 +221,7 @@ class TodoService {
             }
         }, {
             new: true
-        }).select({ _id: 0, __v: 0 });
+        }).select({ _id: 0 });
 
         if (!updated_todo) {
             return {
@@ -284,7 +280,7 @@ class TodoService {
             }
         }, {
             new: true
-        }).select({ _id: 0, __v: 0 });
+        }).select({ _id: 0 });
 
         if (!updated_todo) {
             return {
@@ -329,7 +325,7 @@ class TodoService {
             todo_id: todoId
         }, {
             new: true
-        }).select({ _id: 0, __v: 0 });
+        }).select({ _id: 0 });
 
         if (!deleted_todo) {
             return {
