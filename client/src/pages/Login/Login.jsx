@@ -16,7 +16,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const authState = useSelector((state) => state.auth);
-  console.log("login state", authState);
 
   const {user} = authState;
 

@@ -42,7 +42,7 @@ const Navbar = () => {
                         access_token && loggedInUser ?
                             (
                                 <>
-                                    <li>Welcome <span style={{marginLeft: '5px'}}>{loggedInUser}</span></li>
+                                    <li style={{color: 'crimson', fontWeight: '600', fontSize: '18px'}}>Welcome <span style={{marginLeft: '5px'}}>{loggedInUser}</span></li>
                                     <li><Link onClick={() => handleLogOut()}>Logout</Link></li>
                                 </>
                             ) :

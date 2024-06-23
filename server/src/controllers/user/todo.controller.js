@@ -5,8 +5,9 @@ class TodoController{
 
     static async CreateTodo(req, res){
         try {
+            let user_email = req.headers['email'];
             const bodyData = req.body;
-            const response = await TodoService.CreateTodoService(bodyData);
+            const response = await TodoService.CreateTodoService(user_email, bodyData);
             res.status(201).json(response)
         } catch (error) {
             res.status(500).json({

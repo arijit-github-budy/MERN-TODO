@@ -152,6 +152,60 @@ class FormValidation {
             }
         }
     }
+
+    static async ContactFormValidate(request_data) {
+        try {
+            const { fullname, email, reason } = request_data;
+
+            if (!fullname || !email || !reason ) {
+                return {
+                    status: "error",
+                    code: 400,
+                    message: "Please fill all the requied fields."
+                }
+            }
+
+            if (fullname.length < 6) {
+                return {
+                    status: "error",
+                    code: 400,
+                    message: "Fullname must be minimum 6 character."
+                }
+            }
+
+            if (reason.length < 6) {
+                return {
+                    status: "error",
+                    code: 400,
+                    message: "reason must be minimum 6 character."
+                }
+            }
+
+            const emailValidateStatus = await EmailValidation.EmailValidate(email);
+
+            if (!emailValidateStatus) {
+                return {
+                    status: "error",
+                    code: 400,
+                    message: "Please input valid email."
+                }
+            }
+
+            return {
+                status: "success",
+                code: 200,
+                message: "Validation successfull"
+            }
+        } catch (error) {
+            return {
+                status: "error",
+                code: 400,
+                message: "Validation failed"
+            }
+        }
+
+        
+    }
 }
 
 export default FormValidation;

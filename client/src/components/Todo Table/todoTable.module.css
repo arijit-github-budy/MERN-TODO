@@ -59,9 +59,9 @@
 
 .pagination {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    gap: 30px;
+    /* gap: 30px; */
     margin-top: 10px;
 }
 
@@ -98,12 +98,18 @@
 
 .pageActions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    gap: 30px;
+    /* gap: 30px; */
 }
 
 .tableActionIcons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.tableActionViewIcons {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -153,4 +159,17 @@
 }
 .todoCompleteColor{
     background-color: green;
+}
+
+.notFoundTodos{
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: grey;
+}
+
+.titleLink:hover{
+    color: blue;
+    font-weight: 600;
 }

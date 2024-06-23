@@ -91,3 +91,26 @@ export const userLogout = (redirection) => {
         }
     }
 }
+
+export const userContact = (request_data, clearFormData) => {
+    return async (dispatch, getState) => {
+        try {
+            let response = await AuthAxios.post(`/auth/contact`, request_data);
+            const { status, message, new_todo } = response.data
+
+            if (String(status).toLowerCase() == "error") {
+                toast.error(message);
+                return;
+            }
+
+            if (String(status).toLowerCase() == "success") {
+                toast.success(message);
+                clearFormData();
+            }
+
+        } catch (error) {
+            console.log("Error came from contact section", error);
+            toast.error("Failed to save contact. Please try again.")
+        }
+    }
+}

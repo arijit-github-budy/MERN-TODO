@@ -9,6 +9,7 @@ import Layout from '../components/Layouts/Layout';
 import App from '../App';
 import Home from '../pages/Home/Home';
 import About from '../pages/About/About';
+import TodoView from '../components/Todo view/TodoView';
 
 const AppRoutes = () => {
     return (
@@ -22,6 +23,9 @@ const AppRoutes = () => {
                         <Route path='/auth/dashboard' element={<ProtectedRoutes />}>
                             <Route index element={<Home />} />
                             <Route path="*" element={<ErrorPage />} />
+                        </Route>
+                        <Route path='/auth/user/todo' element={<ProtectedRoutes />}>
+                            <Route path=":todo_id" element={<TodoView />} />
                         </Route>
                         <Route path="about" element={<About />} />
                         <Route path="contact" element={<Contact />} />

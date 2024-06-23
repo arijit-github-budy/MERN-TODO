@@ -1,117 +1,175 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, Pencil, Trash2, CircleCheck } from 'lucide-react';
 import styles from './TodoTable.module.css'; // Import TodoTable module CSS
+import { toast } from 'react-toastify';
+import * as actions from '../../global/states/reducers/todo/todo.actions.js';
 
-const TodoTable = ({ todos, toggleCompletion, deleteTodo }) => {
+const TodoTable = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const todoState = useSelector((state) => state.todo);
+    const { todos: all_todos, todo_limit, total_todo, todo_current_page } = todoState;
     const [searchTerm, setSearchTerm] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [todosPerPage, setTodosPerPage] = useState(5); // State for todos per page
 
-    // Function to handle page change
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    // Function to handle page limit change
-    const handlePageLimitChange = (e) => {
-        setTodosPerPage(Number(e.target.value));
-        setCurrentPage(1); // Reset to first page when page limit changes
-    };
-
-    // Filter todos based on search term
-    const filteredTodos = todos.filter(todo =>
-        todo.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        todo.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    // Logic to paginate todos
-    const indexOfLastTodo = currentPage * todosPerPage;
-    const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-    const currentTodos = filteredTodos.slice(indexOfFirstTodo, indexOfLastTodo);
-
-    // Logic to calculate total pages
-    const totalPages = Math.ceil(filteredTodos.length / todosPerPage);
-
-    // Function to handle previous page click
+    // Handlers for pagination
     const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+        if (todo_current_page > 1) {
+            const currentPage = todo_current_page - 1;
+            if (searchTerm) {
+                dispatch(actions.searchUserTodo(currentPage, todo_limit, searchTerm));
+                return;
+            }
+            dispatch(actions.getUserTodoLists(currentPage, todo_limit));
         }
     };
 
-    // Function to handle next page click
     const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+        const totalPages = Math.ceil(total_todo / todo_limit);
+        if (todo_current_page < totalPages) {
+            const currentPage = todo_current_page + 1;
+            if (searchTerm) {
+                dispatch(actions.searchUserTodo(currentPage, todo_limit, searchTerm));
+                return
+            }
+            dispatch(actions.getUserTodoLists(currentPage, todo_limit));
         }
     };
+
+    const handleSearchInput = (e) => {
+        e.preventDefault();
+        if (!e.target.value) {
+            setSearchTerm('');
+            dispatch(actions.getUserTodoLists());
+            return;
+        }
+        setSearchTerm(e.target.value);
+    };
+
+    const handleSearch = (e) => {
+        if (!searchTerm) {
+            toast.error("Please input search text.");
+            return;
+        }
+        dispatch(actions.searchUserTodo(todo_current_page, todo_limit, searchTerm));
+    };
+
+    const handleEditTodo = (todo) => {
+        if (!todo) {
+            toast.error("Invalid todo found for edit.");
+            return;
+        }
+        dispatch(actions.getTodoForEdit(todo, 'update'));
+    };
+
+    const handleViewTodo = (todo_id) => {
+        if (!todo_id) {
+            toast.error("Invalid todo found for view.");
+            return;
+        }
+        navigate(`/auth/user/todo/${todo_id}`, { replace: true });
+    };
+
+    const handleDeleteTodo = (todo_id) => {
+        if (!todo_id) {
+            toast.error("Invalid todo id found to delete.");
+            return;
+        }
+        dispatch(actions.deleteUserTodo(todo_id));
+    };
+
+    const handleTodoStatus = (todo_id) => {
+        if (!todo_id) {
+            toast.error("Invalid todo id found to update status.");
+            return;
+        }
+        let todo_status = {
+            status: 'completed'
+        }
+        dispatch(actions.updateTodoStaus(todo_id, todo_status));
+    }
 
     return (
         <div className={styles.todoTable}>
+            {/* Search input */}
             <div className={styles.searchContainer}>
                 <input
                     type="text"
                     placeholder="Search Todos"
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={(e) => handleSearchInput(e)}
                     className={styles.searchInput}
                 />
-                <button className={styles.searchButton} type='button' onClick={handlePreviousPage}>Search</button>
+                <button className={styles.searchButton} type='button' onClick={(e) => handleSearch(e)} disabled={!searchTerm}>Search</button>
             </div>
+
+            {/* Todo table */}
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th style={{width: "200px"}}>Title</th>
+                        <th style={{ width: "252px" }}>Title</th>
                         <th>Description</th>
-                        <th style={{width: "120px"}}>Status</th>
-                        <th style={{width: "205px"}}>Actions</th>
+                        <th style={{ width: "120px" }}>Date</th>
+                        <th style={{ width: "120px" }}>Status</th>
+                        <th style={{ width: "205px" }}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {currentTodos.map(todo => (
-                        <tr key={todo.id}>
-                            <td>{todo.title}</td>
-                            <td>{todo.description}</td>
-                            <td><div className={`${styles.todoStatus} ${String(todo.status).toLowerCase() == 'completed' ? styles.todoCompleteColor : styles.todoPendingColor}`}>{todo.status}</div></td>
+                    {all_todos.map(todo => (
+                        <tr key={todo.todo_id}>
                             <td>
-                                <div className={styles.tableActionIcons}>
-                                    <span className={`${styles.icon} ${styles.circle}`} onClick={() => toggleCompletion(todo.id)}>
-                                        <CircleCheck />
-                                    </span>
-                                    <span className={`${styles.icon} ${styles.eye}`}>
-                                        <Eye />
-                                    </span>
-                                    <span className={`${styles.icon} ${styles.pencil}`}>
-                                        <Pencil />
-                                    </span>
-                                    <span className={`${styles.icon} ${styles.trash}`} onClick={() => deleteTodo(todo.id)}>
-                                        <Trash2 />
-                                    </span>
+                                <Link className={styles.titleLink} to={`/auth/user/todo/${todo.todo_id}`}>
+                                    {todo.title}
+                                </Link>
+                            </td>
+                            <td>{todo.description && todo.description.length > 20 ? `${todo.description.slice(0, 100)}...` : todo.description}</td>
+                            <td>
+                                {todo.created_date}
+                            </td>
+                            <td>
+                                <div className={`${styles.todoStatus} ${String(todo.status).toLowerCase() === 'completed' ? styles.todoCompleteColor : styles.todoPendingColor}`}>
+                                    {todo.status}
+                                </div>
+                            </td>
+                            <td>
+                                <div className={String(todo.status).toLowerCase() === 'completed' ? styles.tableActionViewIcons : styles.tableActionIcons}>
+                                    {String(todo.status).toLowerCase() === 'completed' ?
+                                        <span className={`${styles.icon} ${styles.eye}`} onClick={() => handleViewTodo(todo.todo_id)}>
+                                            <Eye />
+                                        </span>
+                                        :
+                                        <>
+                                            <span className={`${styles.icon} ${styles.circle}`} onClick={() => handleTodoStatus(todo.todo_id)}>
+                                                <CircleCheck />
+                                            </span>
+                                            <span className={`${styles.icon} ${styles.eye}`} onClick={() => handleViewTodo(todo.todo_id)}>
+                                                <Eye />
+                                            </span>
+                                            <span className={`${styles.icon} ${styles.pencil}`} onClick={() => handleEditTodo(todo)}>
+                                                <Pencil />
+                                            </span>
+                                            <span className={`${styles.icon} ${styles.trash}`} onClick={() => handleDeleteTodo(todo.todo_id)}>
+                                                <Trash2 />
+                                            </span>
+                                        </>
+                                    }
                                 </div>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <div className={styles.pagination}>
-                <span className={styles.pageLimit}>
-                    Items per page:
-                    <select value={todosPerPage} onChange={handlePageLimitChange}>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
-                </span>
-                <div className={styles.pageActions}>
-                    <span>
-                        Page {currentPage} of {totalPages}
-                    </span>
 
-                    <div>
-                        <button onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
-                        <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
+            {/* Pagination */}
+            {all_todos.length > 0 &&
+                <div className={styles.pagination}>
+                    <div className={styles.pageActions}>
+                        <button onClick={handlePreviousPage}>Previous</button>
+                        <button onClick={handleNextPage}>Next</button>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     );
 };

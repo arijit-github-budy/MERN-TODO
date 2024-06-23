@@ -47,6 +47,21 @@ class AuthController {
             })
         }
     }
+
+    static async UserContact(req, res) {
+        try {
+            const response = await AuthServices.UserContactService(req, res);
+            res.status(200).json(response)
+        } catch (error) {
+            console.log("error of contact", error);
+            res.status(400).json({
+                status: "error",
+                message: "Failed to save contact request. Try again later.",
+                error_message: error.message,
+                originalStack: error
+            })
+        }
+    }
 }
 
 export default AuthController;

@@ -10,7 +10,7 @@ class UserModel {
             const schema = new Mongoose.Schema({
                 todo_id: {
                     type: String,
-                    default: uuidv4()
+                    default: Date.now()
                 },
                 title: {
                     type: String,
@@ -28,9 +28,14 @@ class UserModel {
                     enum: ["Pending", "Completed"],
                     trim: true
                 },
+                created_by: {
+                    type: String,
+                    require: true,
+                    trim: true
+                },
                 created_date: {
                     type: Date,
-                    default: new Date(),
+                    default: null,
                     trim: true
                 }
             }, {

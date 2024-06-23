@@ -11,7 +11,7 @@ class AuthModel {
                 user_id: {
                     type: String,
                     unique: true,
-                    default: uuidv4()
+                    default: Date.now()
                 },
                 fullname: {
                     type: String,
@@ -58,6 +58,47 @@ class AuthModel {
             return User;
         } catch (error) {
             console.log("error from model", error);
+        }
+    }
+
+    static ContactModel() {
+        try {
+            const schema = new Mongoose.Schema({
+                contact_id: {
+                    type: String,
+                    unique: true,
+                    default: Date.now()
+                },
+                fullname: {
+                    type: String,
+                    require: true,
+                    trim: true
+                },
+                email: {
+                    type: String,
+                    unique: true,
+                    require: true,
+                    trim: true
+                },
+                reason: {
+                    type: String,
+                    require: true,
+                    trim: true
+                },
+                contact_time: {
+                    type: Date,
+                    default: null,
+                    trim: true
+                }
+            }, {
+                timestamps: true
+            })
+
+            const Contact = Mongoose.model('Contact', schema);
+
+            return Contact;
+        } catch (error) {
+            console.log("error from contact model", error);
         }
     }
 }

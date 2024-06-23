@@ -6,7 +6,6 @@ const INITIAL_STATE = {
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
-    console.log("action is here", action)
     switch (action.type) {
         case REGISTRATION:
             return {

@@ -1,3 +1,4 @@
+import moment from 'moment';
 import AuthModel from '../../Models/auth/auth.model.js';
 import FormValidation from '../../validators/form.validator.js';
 import HashingUtils from '../../utils/hashing.utilty.js';
@@ -8,6 +9,15 @@ class AuthServices {
     }
 
     static User = AuthModel.UserModel();
+    static Contact = AuthModel.ContactModel();
+
+    static async currentDateTime (){
+        let tempCurrentDateTime = moment();
+        let updatedDate = moment(tempCurrentDateTime).add(5, 'hours').add(30, 'minutes');
+        let currentDate = updatedDate;
+
+        return currentDate;
+    }
 
     static async FindUserDetails(email) {
         const foundedUser = await this.User.findOne({
@@ -120,7 +130,7 @@ class AuthServices {
         },{
             $set: {
                 login_status: true,
-                login_time: new Date()
+                login_time: await this.currentDateTime()
             }
         }, {
             new: true
@@ -204,7 +214,7 @@ class AuthServices {
         },{
             $set: {
                 login_status: false,
-                logout_time: new Date()
+                logout_time: await this.currentDateTime()
             }
         }, {
             new: true
@@ -233,6 +243,42 @@ class AuthServices {
             message: "User has been logged out successfully",
             user_info
         }
+    }
+
+    static async UserContactService(req, res) {
+        const bodyData = req.body;
+        console.log(bodyData)
+        const formValResponse = await FormValidation.ContactFormValidate(bodyData);
+
+        if (formValResponse.status == "error") {
+            return formValResponse;
+        }
+
+        const { fullname, email, reason } = bodyData;
+
+        let contact_body = {
+            fullname,
+            email,
+            reason,
+            contact_time : await this.currentDateTime()
+        }
+
+        console.log(contact_body)
+
+        let contactedUser = await this.Contact.create(contact_body);
+
+        if(!contactedUser){
+            return {
+                status: "error",
+                code: 500,
+                message: "User contact request failed",
+            }
+        }
+
+        return {
+            status: "success",
+            code: 200,
+            message: "Thanks for contact with us. Our team will reach you soon.",        }
     }
 }
 
