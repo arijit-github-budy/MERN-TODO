@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './TodoForm.module.css'; // Import CSS module
+import styles from './todoForm.module.css'; // Import CSS module
 import { toast } from 'react-toastify';
 import * as actions from '../../global/states/reducers/todo/todo.actions.js';
 
@@ -20,7 +20,6 @@ const TodoForm = () => {
 
     useEffect(() => {
         if (edit_todo) {
-            console.log("my too", edit_todo)
             let todoData = {
                 title: edit_todo.title,
                 description: edit_todo.description
@@ -31,7 +30,6 @@ const TodoForm = () => {
     }, [edit_todo, todo_action]);
 
     const clearForm = () => {
-        console.log("i am here")
         setTodoForm(default_form);
     }
 
@@ -47,7 +45,6 @@ const TodoForm = () => {
             return;
         }
         if(todo_action && String(todo_action).toLowerCase() == 'update'){
-            console.log("updated todo", todoForm);
             dispatch(actions.editUserTodo(edit_todo.todo_id, todoForm, clearForm))
         }else{
             dispatch(actions.createUserTodo(todoForm, clearForm));
