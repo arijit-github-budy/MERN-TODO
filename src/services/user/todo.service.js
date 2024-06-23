@@ -123,9 +123,6 @@ class TodoService {
 
         if (all_todos.length == 0) {
             return {
-                status: "error",
-                code: 500,
-                message: "No todos found.",
                 all_todos: [],
                 count: 0
             }
