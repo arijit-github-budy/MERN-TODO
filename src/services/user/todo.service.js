@@ -123,6 +123,7 @@ class TodoService {
 
         if (all_todos.length == 0) {
             return {
+                status: "success",
                 all_todos: [],
                 count: 0
             }
