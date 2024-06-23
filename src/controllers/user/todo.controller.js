@@ -21,8 +21,9 @@ class TodoController{
 
     static async SearchTodo(req, res){
         try {
+            let user_email = req.headers['email'];
             const query = req.query;
-            const response = await TodoService.SearchTodoService(query);
+            const response = await TodoService.SearchTodoService(user_email,query);
             res.status(200).json(response)
         } catch (error) {
             res.status(500).json({
@@ -36,8 +37,9 @@ class TodoController{
 
     static async GetAllTodos(req, res){
         try {
+            let user_email = req.headers['email'];
             const query = req.query;
-            const response = await TodoService.GetAllTodosService(query);
+            const response = await TodoService.GetAllTodosService(user_email,query);
             res.status(200).json(response)
         } catch (error) {
             res.status(500).json({

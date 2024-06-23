@@ -6,14 +6,14 @@ class TodoService {
     constructor() { }
     static Todo = UserModel.TodoModel();
 
-    static async currentDateTime (){
+    static async currentDateTime() {
         let tempCurrentDateTime = moment();
         let updatedDate = moment(tempCurrentDateTime).add(5, 'hours').add(30, 'minutes');
         let currentDate = updatedDate;
 
         return currentDate;
     }
-    
+
     static async CreateTodoService(user_email, bodyData) {
         // const email = reque
         const formValResponse = await FormValidation.TodoFormValidate(bodyData);
@@ -50,8 +50,8 @@ class TodoService {
         }
     }
 
-    static async SearchTodoService(query) {
-
+    static async SearchTodoService(user_email, query) {
+        console.log(user_email)
         let { search, offset, limit } = query;
 
         offset = Number(offset) ? offset : 0;
@@ -60,21 +60,26 @@ class TodoService {
         let searched_todos = [];
         let searched_todo_count = 0;
 
-        if(!search){
-            searched_todos = await this.Todo.find({}).sort({created_date: -1}).select({ _id: 0, __v: 0 });
+        if (!search) {
+            searched_todos = await this.Todo.find({ created_by: user_email }).sort({ created_date: -1 }).select({ _id: 0, __v: 0 });
         }
 
         searched_todos = await this.Todo.find({
-            $or: [
-                { title: {$regex: search, $options: 'i'} },
-                { status: {$regex: search, $options: 'i'} },
+            $and: [
+                { created_by: user_email },
+                {
+                    $or: [
+                        { title: { $regex: search, $options: 'i' } },
+                        { status: { $regex: search, $options: 'i' } },
+                    ]
+                }
             ]
-        }).skip(offset).limit(limit).select({ _id: 0 });
+        }).skip(offset).limit(limit).select({ _id: 0, __v: 0 });
 
         searched_todo_count = await this.Todo.find({
             $or: [
-                { title: {$regex: search, $options: 'i'} },
-                { status: {$regex: search, $options: 'i'} },
+                { title: { $regex: search, $options: 'i' } },
+                { status: { $regex: search, $options: 'i' } },
             ]
         }).count();
 
@@ -99,10 +104,11 @@ class TodoService {
 
     static async CountAllTodosService() {
         let todos_count = await this.Todo.count();
+        // console.log(todos_count, "total count");
         return todos_count
     }
 
-    static async GetAllTodosService(query) {
+    static async GetAllTodosService(user_email, query) {
 
         let { offset, limit } = query;
         let all_todos = [];
@@ -110,7 +116,7 @@ class TodoService {
         offset = Number(offset);
         limit = Number(limit);
 
-        all_todos = await this.Todo.find({}).sort({title: -1}).skip(offset).limit(limit).select({ _id: 0 });
+        all_todos = await this.Todo.find({ created_by: user_email }).sort({ title: -1 }).skip(offset).limit(limit).select({ _id: 0, __v: 0 });
 
 
         if (!all_todos) {
@@ -137,7 +143,7 @@ class TodoService {
             total_todo
         }
     }
-    
+
     static async GetSingleTodoService(params) {
 
         let { todoId } = params;
@@ -175,7 +181,7 @@ class TodoService {
         let { todoId } = params;
         let { title, description } = bodyData;
 
-        if(title == ''){
+        if (title == '') {
             return {
                 status: "error",
                 code: 400,
@@ -183,7 +189,7 @@ class TodoService {
             }
         }
 
-        if(description == ''){
+        if (description == '') {
             return {
                 status: "error",
                 code: 400,
@@ -202,7 +208,7 @@ class TodoService {
 
         const found_todo = await this.GetSingleTodoService(params);
 
-        if(found_todo.status == 'error' || found_todo.code == 404){
+        if (found_todo.status == 'error' || found_todo.code == 404) {
             return {
                 status: "error",
                 code: 400,
@@ -250,7 +256,7 @@ class TodoService {
             }
         }
 
-        if(!['completed', 'pending'].includes(String(status).trim().toLowerCase())){
+        if (!['completed', 'pending'].includes(String(status).trim().toLowerCase())) {
             return {
                 status: "error",
                 code: 400,
@@ -260,7 +266,7 @@ class TodoService {
 
         const found_todo = await this.GetSingleTodoService(params);
 
-        if(found_todo.status == 'error' || found_todo.code == 404){
+        if (found_todo.status == 'error' || found_todo.code == 404) {
             return {
                 status: "error",
                 code: 400,
@@ -295,7 +301,7 @@ class TodoService {
             todo: updated_todo
         }
     }
-    
+
     static async DeleteSingleTodoService(params) {
 
         let { todoId } = params;
@@ -310,14 +316,14 @@ class TodoService {
 
         const found_todo = await this.GetSingleTodoService(params);
 
-        if(found_todo.status == 'error' || found_todo.code == 404){
+        if (found_todo.status == 'error' || found_todo.code == 404) {
             return {
                 status: "error",
                 code: 400,
                 message: "Invalid todo.",
             }
         }
-        
+
 
         let deleted_todo = await this.Todo.findOneAndRemove({
             todo_id: todoId
