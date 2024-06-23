@@ -1,25 +1,17 @@
 # Dependency directories
 node_modules/
-client/node_modules/
-server/node_modules/
+
+package-lock.json
+
+yarn.lock
 
 # Client environment variables
-client/.env
-
-# Server environment variables
-server/.env
+.env
 
 # Environment-specific files (if applicable)
-client/.env.local
-client/.env.production
-client/.env.test
-server/.env.local
-server/.env.production
-server/.env.test
+.env.local
+.env.production
+.env.test
 
 # Log files
 *.log
-
-# Build files (if applicable)
-client/build/
-server/build/

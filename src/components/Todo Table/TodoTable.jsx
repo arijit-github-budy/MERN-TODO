@@ -135,9 +135,14 @@ const TodoTable = () => {
                             <td>
                                 <div className={String(todo.status).toLowerCase() === 'completed' ? styles.tableActionViewIcons : styles.tableActionIcons}>
                                     {String(todo.status).toLowerCase() === 'completed' ?
-                                        <span className={`${styles.icon} ${styles.eye}`} onClick={() => handleViewTodo(todo.todo_id)}>
-                                            <Eye />
-                                        </span>
+                                        <>
+                                            <span className={`${styles.icon} ${styles.eye}`} onClick={() => handleViewTodo(todo.todo_id)}>
+                                                <Eye />
+                                            </span>
+                                            <span className={`${styles.icon} ${styles.trash}`} onClick={() => handleDeleteTodo(todo.todo_id)}>
+                                                <Trash2 />
+                                            </span>
+                                        </>
                                         :
                                         <>
                                             <span className={`${styles.icon} ${styles.circle}`} onClick={() => handleTodoStatus(todo.todo_id)}>
