@@ -53,3 +53,8 @@
 .ctaButton:hover {
     background-color: #0056b3;
 }
+
+.link{
+    text-decoration: none;
+    color: #000;
+}

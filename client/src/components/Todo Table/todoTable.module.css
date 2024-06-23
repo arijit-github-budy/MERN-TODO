@@ -169,6 +169,11 @@
     color: grey;
 }
 
+.titleLink{
+    text-decoration: none;
+    color: #000;
+}
+
 .titleLink:hover{
     color: blue;
     font-weight: 600;

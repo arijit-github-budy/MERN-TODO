@@ -20,7 +20,7 @@ const About = () => {
         </div>
         <div className={styles.text}>
             <h2>Contact Us</h2>
-            <p>For any inquiries or support, please email us at <a href="mailto:contact@example.com">contact@example.com</a>.</p>
+            <p>For any inquiries or support, please email us at <Link className={styles.link}>royarijit8084@gmail.com</Link>.</p>
         </div>
     </div>
     <div className={styles.cta}>
