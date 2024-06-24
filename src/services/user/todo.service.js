@@ -61,22 +61,19 @@ class TodoService {
         let searched_todo_count = 0;
 
         if (!search) {
-            searched_todos = await this.Todo.find({ created_by: user_email }).sort({ created_date: -1 }).select({ _id: 0, __v: 0 });
+            searched_todos = await this.Todo.find({ created_by: user_email }).sort({ created_date: -1 }).skip(offset).limit(limit).select({ _id: 0, __v: 0 });
         }
 
         searched_todos = await this.Todo.find({
-            $and: [
-                { created_by: user_email },
-                {
-                    $or: [
-                        { title: { $regex: search, $options: 'i' } },
-                        { status: { $regex: search, $options: 'i' } },
-                    ]
-                }
+            created_by: user_email,
+            $or: [
+                { title: { $regex: search, $options: 'i' } },
+                { status: { $regex: search, $options: 'i' } },
             ]
         }).skip(offset).limit(limit).select({ _id: 0, __v: 0 });
 
         searched_todo_count = await this.Todo.find({
+            created_by: user_email,
             $or: [
                 { title: { $regex: search, $options: 'i' } },
                 { status: { $regex: search, $options: 'i' } },
