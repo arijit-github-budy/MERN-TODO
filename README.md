@@ -25,7 +25,7 @@ Technologies
 
 Installation
     1. Clone the repository.    
-        git clone https://github.com/yourusername/mern-todo.git
+        git clone https://github.com/arijit-github-budy/MERN-TODO.git
     
     2. Install dependencies
        cd client and npm install or yarn
