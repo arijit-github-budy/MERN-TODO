@@ -1,0 +1,101 @@
+/* HomePage.module.css */
+.homePage {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    background-color: #007bff;
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.headerContent {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.header h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.header p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+}
+
+.getStartedButton {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #0056b3;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.getStartedButton:hover {
+    background-color: #004d99;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    margin: 80px auto;
+}
+
+.feature {
+    flex: 1;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.feature h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.feature p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.aboutUs {
+    background-color: #f8f9fa;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.aboutUsContent {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.aboutUs h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.aboutUs p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+}
+
+.learnMoreButton {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color:  #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.learnMoreButton:hover {
+    background-color: #0056b3;
+}

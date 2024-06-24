@@ -1,0 +1,180 @@
+.todoTable {
+    margin-top: 20px;
+}
+
+.todoTable .searchInput {
+    width: 210px;
+    height: 35px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.searchContainer {
+    width: 100%;
+    /* height: 100%; */
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.searchButton {
+    width: 70px;
+    background-color: #008DDA;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.todoTable .table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.todoTable .table th,
+.todoTable .table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.todoTable .table th {
+    background-color: #f0f0f0;
+    text-align: left;
+}
+
+.todoTable .table td {
+    text-align: left;
+}
+
+.todoTable {
+    margin-top: 10px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    /* gap: 30px; */
+    margin-top: 10px;
+}
+
+.todoTable .pagination button {
+    margin-right: 5px;
+    background-color: #008DDA;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* .todoTable .pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+} */
+
+.todoTable .pagination span {
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+.todoTable .pagination select {
+    margin-left: 5px;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.pageLimit {}
+
+.pageActions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    /* gap: 30px; */
+}
+
+.tableActionIcons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.tableActionViewIcons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.icon {
+    cursor: pointer;
+    margin: 0 8px;
+    transition: color 0.3s ease;
+}
+
+.circle:hover {
+    color: green;
+    /* Change color on hover */
+}
+.eye:hover {
+    color: cyan;
+    /* Change color on hover */
+}
+.pencil:hover {
+    color: yellow;
+    /* Change color on hover */
+}
+
+.trash:hover {
+    color: red;
+    /* Change color on hover */
+}
+
+/* Style for specific icons */
+.icon svg {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+.todoStatus{
+    width: fit-content;
+    padding: 0px 20px;
+    border-radius: 50px;
+    /* font-size: 17px; */
+    font-weight: 600;
+    color: #fff;
+}
+.todoPendingColor{
+    background-color: #efef08;
+}
+.todoCompleteColor{
+    background-color: green;
+}
+
+.notFoundTodos{
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: grey;
+}
+
+.titleLink{
+    text-decoration: none;
+    color: #000;
+}
+
+.titleLink:hover{
+    color: blue;
+    font-weight: 600;
+}

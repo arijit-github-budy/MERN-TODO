@@ -1,0 +1,70 @@
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.container .title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.container .description {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.container .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    color: #777;
+}
+
+.container .status {
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.container .status.pending {
+    background-color: #efef08;
+}
+
+.container .status.completed {
+    background-color: green;
+}
+
+.notFound {
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: grey;
+    margin-top: 20px;
+}
+
+.buttonContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submitButton {
+    background-color: #008DDA;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px auto;
+}

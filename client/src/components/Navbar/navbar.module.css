@@ -1,0 +1,43 @@
+.container {
+    max-width: 100%;
+    height: 35px;
+    padding: 0px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 30px;
+}
+
+.navbar {
+    background-color: #008DDA;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.logo {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+.navLinks {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navLinks li {
+    margin-right: 20px;
+}
+
+.navLinks li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.navLinks li a:hover {
+    color: crimson;
+}
